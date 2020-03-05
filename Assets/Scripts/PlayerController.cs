@@ -8,16 +8,26 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     public float jumpSpeed = 5f;
     private float movement = 0f;
+    private float scaleX;
+    private float scaleY;
     private Rigidbody2D rigidBody;
     public Transform groundCheckPoint;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
+    private Animator playerAnimation;
+    public Vector3 respawnPoint;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        playerAnimation = GetComponent<Animator>();
+
+        scaleX = transform.localScale.x;
+        scaleY = transform.localScale.y;
+
+        respawnPoint = transform.position;
     }
 
     // Update is called once per frame
@@ -25,9 +35,15 @@ public class PlayerController : MonoBehaviour
     {
         isTouchingGround = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, groundLayer);
         movement = Input.GetAxis("Horizontal");
-        if (movement != 0f)
+        if (movement > 0f)
         {
             rigidBody.velocity = new Vector2(movement * speed, rigidBody.velocity.y);
+            transform.localScale = new Vector2(scaleX, scaleY);
+        }
+        else if (movement < 0f)
+        {
+            rigidBody.velocity = new Vector2(movement * speed, rigidBody.velocity.y);
+            transform.localScale = new Vector2(-scaleX, scaleY);
         }
         else
         {
@@ -39,5 +55,19 @@ public class PlayerController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpSpeed);
         }
 
+        playerAnimation.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
+        playerAnimation.SetBool("OnGround", isTouchingGround);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "FallDetector")
+        {
+            transform.position = respawnPoint;
+        }
+        else if (other.tag == "Checkpoint")
+        {
+            respawnPoint = other.transform.position;
+        }
     }
 }
