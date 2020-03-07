@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinScript : MonoBehaviour {
-
-    public int score = 0;
+public class CoinScript : MonoBehaviour
+{
+    private LevelManager gameLevelManager;
+    public int coinValue;
 
     // Start is called before the first frame update
-    void Start () {
-
+    void Start()
+    {
+        gameLevelManager = FindObjectOfType<LevelManager>();
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
     }
 
-    void OnTriggerEnter2D (Collider2D other) {
-        Debug.Log ("Triggered");
-        Destroy(gameObject);
-        score++;
-        Debug.Log("Score is " + score);
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            gameLevelManager.AddCoins(coinValue);
+            Destroy(gameObject);
+        }
     }
 }
