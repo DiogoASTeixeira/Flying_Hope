@@ -17,17 +17,17 @@ public class PlayerController : MonoBehaviour
     private bool isTouchingGround;
     private Animator playerAnimation;
     public Vector3 respawnPoint;
+    public LevelManager gameLevelManager;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<Animator>();
-
+        respawnPoint = transform.position;
         scaleX = transform.localScale.x;
         scaleY = transform.localScale.y;
-
-        respawnPoint = transform.position;
+        gameLevelManager = FindObjectOfType<LevelManager>();
     }
 
     // Update is called once per frame
@@ -61,11 +61,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "FallDetector")
+        if (other.CompareTag("FallDetector"))
         {
-            transform.position = respawnPoint;
+            gameLevelManager.Respawn();
         }
-        else if (other.tag == "Checkpoint")
+        else if (other.CompareTag("Checkpoint"))
         {
             respawnPoint = other.transform.position;
         }
