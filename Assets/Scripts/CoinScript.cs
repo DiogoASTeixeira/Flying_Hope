@@ -23,7 +23,7 @@ public class CoinScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            gameLevelManager.AddCoins(coinValue);
+            //gameLevelManager.AddCoins(coinValue);
             Destroy(gameObject);
         }
     }
