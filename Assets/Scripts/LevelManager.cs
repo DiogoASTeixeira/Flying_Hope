@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     private float timer;
+    private bool hasLaunched;
 
     public float respawnDelay;
     public PlaneController gamePlayer;
@@ -23,8 +24,16 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CountTime();
-        powerBar.value = 1 - Mathf.Abs(Mathf.Sin(timer + 90*Mathf.Deg2Rad));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            hasLaunched = true;
+            gamePlayer.LaunchPlane(powerBar.value);
+        }
+        if (!hasLaunched)
+        {
+            CountTime();
+            powerBar.value = 1 - Mathf.Abs(Mathf.Sin(timer + 90 * Mathf.Deg2Rad));
+        }
     }
 
     public void Respawn() => StartCoroutine("RespawnCoroutine");
