@@ -8,17 +8,19 @@ public class CameraController : MonoBehaviour
     public float offset;
     private Vector3 playerPosition;
     public float offsetSmoothing;
+    private Rigidbody2D playerRB;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerRB = player.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerPosition = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-        if (player.transform.localScale.x > 0f)
+        playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        if (playerRB.velocity.x >= 0f)
         {
             playerPosition = new Vector3(player.transform.position.x + offset, playerPosition.y, playerPosition.z);
         }

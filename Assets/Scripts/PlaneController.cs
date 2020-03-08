@@ -55,7 +55,7 @@ public class PlaneController : MonoBehaviour
     public void LaunchPlane(float force, float angle)
     {
         angle *= Mathf.Deg2Rad;
-        rb.AddForce(3 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
+        rb.AddForce(15 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
 
     public void SetKinematic(bool boolean) => rb.isKinematic = boolean;
