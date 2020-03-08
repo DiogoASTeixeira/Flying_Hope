@@ -17,7 +17,6 @@ public class PlaneController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         vectorX = new Vector3(1, 0, 0);
-        //rigidBody.AddForce(transform.right * 1, ForceMode2D.Impulse);
         angle = getAngle();
         rb.SetRotation(-angle);
     }
@@ -52,9 +51,14 @@ public class PlaneController : MonoBehaviour
         return Vector3.SignedAngle(vectorX, moveVector, Vector3.forward);
     }
 
-    public void LaunchPlane(float force)
+    public void LaunchPlane(float force, float angle)
     {
-        rb.AddForce(2 * force * new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)), ForceMode2D.Impulse);
+        angle *= Mathf.Deg2Rad;
+        rb.AddForce(3 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
 
+    public void setKinematic(bool boolean)
+    {
+        rb.isKinematic = boolean;
+    }
 }

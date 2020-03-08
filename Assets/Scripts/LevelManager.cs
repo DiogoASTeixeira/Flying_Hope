@@ -4,8 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
+    private enum LaunchPhase
+    {
+        SetPower,
+        SetAngle,
+        Launched
+    }
+    private LaunchPhase launchPhase;
+
     private float timer;
-    private bool hasLaunched;
+    private float launchPower, launchAngle;
 
     public float respawnDelay;
     public PlaneController gamePlayer;
@@ -17,24 +25,57 @@ public class LevelManager : MonoBehaviour
     {
         gamePlayer = FindObjectOfType<PlaneController>();
         text.text = "0";
-        ResetTimeCounter();
-        powerBar.value = 0.5f;
+        ResetTimer();
+
+        launchAngle = 0f;
+        launchPower = 0f;
+        gamePlayer.setKinematic(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (launchPhase != LaunchPhase.Launched)
         {
-            hasLaunched = true;
-            gamePlayer.LaunchPlane(powerBar.value);
-        }
-        if (!hasLaunched)
-        {
-            CountTime();
-            powerBar.value = 1 - Mathf.Abs(Mathf.Sin(timer + 90 * Mathf.Deg2Rad));
+            PlaneLauncher();
         }
     }
+
+    private void PlaneLauncher()
+    {
+        switch (launchPhase)
+        {
+            case LaunchPhase.SetPower:
+                CountTime();
+                powerBar.value = 1 - Mathf.Abs(Mathf.Sin(timer + 90 * Mathf.Deg2Rad));
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    launchPower = powerBar.value;
+                    ResetTimer();
+                    launchPhase = LaunchPhase.SetAngle;
+                }
+                break;
+            case LaunchPhase.SetAngle:
+                CountTime();
+                gamePlayer.transform.localEulerAngles = new Vector3(0, 0, 90 * (1 - Mathf.Abs(Mathf.Cos(timer))));
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    launchAngle = 90 * (1 - Mathf.Abs(Mathf.Cos(timer)));
+                    gamePlayer.setKinematic(false);
+                    gamePlayer.LaunchPlane(launchPower, launchAngle);
+                    launchPhase = LaunchPhase.Launched;
+                }
+                break;
+        }
+    }
+
+    public void ResetTimer()
+    {
+        timer = 0f;
+    }
+
+    private void CountTime() => timer += Time.deltaTime;
 
     public void Respawn() => StartCoroutine("RespawnCoroutine");
 
@@ -45,8 +86,4 @@ public class LevelManager : MonoBehaviour
         //gamePlayer.transform.position = gamePlayer.respawnPoint;
         gamePlayer.gameObject.SetActive(true);
     }
-
-    public void ResetTimeCounter() => timer = 0f;
-
-    private void CountTime() => timer += Time.deltaTime;
 }
