@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PlaneController : MonoBehaviour
     public float horizontalAngleMod;
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
     private float angle;
     private Vector3 vectorX;
 
@@ -16,22 +18,21 @@ public class PlaneController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         vectorX = new Vector3(1, 0, 0);
-        angle = getAngle();
+        angle = GetAngle();
         rb.SetRotation(-angle);
     }
 
     // Update is called once per frame
     void Update()
     {
-        angle = getAngle();
-        // Debug.Log(angle);
-        // Debug.Log(Mathf.Sin(angle * Mathf.Deg2Rad));
+        FlipHorizontal();
+        angle = GetAngle();
         rb.SetRotation(angle);
-        //rigidBody.velocity += new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad) * horizontalAngleMod,- Mathf.Sin(angle * Mathf.Deg2Rad) * verticalAngleMod);
-
-
     }
+
+    private void FlipHorizontal() => sr.flipY = rb.velocity.x < 0f;
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -41,7 +42,7 @@ public class PlaneController : MonoBehaviour
         }
     }
 
-    private float getAngle()
+    private float GetAngle()
     {
         Vector3 moveVector = new Vector3(rb.velocity.x, rb.velocity.y, 0);
         if (Mathf.Abs(moveVector.x) < 0.1 && Mathf.Abs(moveVector.y) < 0.1)
@@ -57,8 +58,5 @@ public class PlaneController : MonoBehaviour
         rb.AddForce(3 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
 
-    public void setKinematic(bool boolean)
-    {
-        rb.isKinematic = boolean;
-    }
+    public void SetKinematic(bool boolean) => rb.isKinematic = boolean;
 }

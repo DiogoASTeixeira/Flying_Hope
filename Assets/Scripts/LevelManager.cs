@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour
 
         launchAngle = 0f;
         launchPower = 0f;
-        gamePlayer.setKinematic(true);
+        gamePlayer.SetKinematic(true);
     }
 
     // Update is called once per frame
@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     launchAngle = 90 * (1 - Mathf.Abs(Mathf.Cos(timer)));
-                    gamePlayer.setKinematic(false);
+                    gamePlayer.SetKinematic(false);
                     gamePlayer.LaunchPlane(launchPower, launchAngle);
                     launchPhase = LaunchPhase.Launched;
                 }
