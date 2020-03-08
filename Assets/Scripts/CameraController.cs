@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
-        if (playerRB.velocity.x >= 0f)
+        if (playerRB.velocity.x >= -0.5f)
         {
             playerPosition = new Vector3(player.transform.position.x + offset, playerPosition.y, playerPosition.z);
         }

@@ -20,19 +20,21 @@ public class PlaneController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         vectorX = new Vector3(1, 0, 0);
-        angle = GetAngle();
-        rb.SetRotation(-angle);
+        SetAngle();
     }
 
     // Update is called once per frame
     void Update()
     {
-        FlipHorizontal();
-        angle = GetAngle();
-        rb.SetRotation(angle);
     }
 
-    private void FlipHorizontal() => sr.flipY = rb.velocity.x < 0f;
+    private void FixedUpdate()
+    {
+        FlipHorizontal();
+        SetAngle();
+    }
+
+    private void FlipHorizontal() => sr.flipY = rb.velocity.x < -0.5f;
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -42,14 +44,16 @@ public class PlaneController : MonoBehaviour
         }
     }
 
-    private float GetAngle()
+    private void SetAngle()
     {
         Vector3 moveVector = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        if (Mathf.Abs(moveVector.x) < 0.1 && Mathf.Abs(moveVector.y) < 0.1)
+        if (Mathf.Abs(moveVector.x) < 0.1f && Mathf.Abs(moveVector.y) < 0.1f)
         {
-            return -90;
+            moveVector = vectorX;
+            rb.velocity = new Vector2(0f, 0f);
         }
-        return Vector3.SignedAngle(vectorX, moveVector, Vector3.forward);
+        rb.SetRotation(Vector3.SignedAngle(vectorX, moveVector, Vector3.forward));
+        Debug.Log(Vector3.SignedAngle(vectorX, moveVector, Vector3.forward));
     }
 
     public void LaunchPlane(float force, float angle)
