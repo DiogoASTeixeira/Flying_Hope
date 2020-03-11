@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     private Rigidbody2D playerRB;
 
     public GameObject[] levels;
+
     private Camera mainCamera;
     private Vector2 screenBounds;
     public float choke;
@@ -32,7 +33,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
-        if (playerRB.velocity.x >= -0.5f)
+        if (playerRB.velocity.x >= -1f)
         {
             playerPosition = new Vector3(player.transform.position.x + offset, playerPosition.y, playerPosition.z);
         }
