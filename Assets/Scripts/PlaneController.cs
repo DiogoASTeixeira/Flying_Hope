@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
-    public float fanSpeed;
     public float airResistanceForce;
+    public float tiltPower;
+    public float launchPower;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -28,36 +29,38 @@ public class PlaneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inputTilt = Input.GetAxis("Horizontal");
+        
     }
 
     private void FixedUpdate()
     {
         FlipHorizontal();
         SetAngle();
+        inputTilt = Input.GetAxis("Horizontal");
+        rb.SetRotation(rb.rotation - inputTilt * tiltPower);
         AirResistanceForce();
     }
 
     private void AirResistanceForce()
     {
-        Vector2 perpendicular = Vector2.Perpendicular(rb.velocity.normalized);
-        rb.AddForce(perpendicular * airResistanceForce, ForceMode2D.Force);
+        if (transform.position.y > -3.5)
+        {
+            Vector2 perpendicular = Vector2.Perpendicular(new Vector2(Mathf.Cos(rb.rotation * Mathf.Deg2Rad), Mathf.Sin(rb.rotation * Mathf.Deg2Rad)));
+            rb.AddForce(perpendicular * airResistanceForce, ForceMode2D.Force);
+        }
     }
 
     private void FlipHorizontal() => sr.flipY = rb.velocity.x < -0.5f;
 
-    void OnTriggerStay2D(Collider2D other)
+    public void TriggerFan(float fanPower)
     {
-        if (other.CompareTag("Fan"))
-        {
-            rb.AddForce(new Vector2(0, 1) * fanSpeed, ForceMode2D.Force);
-        }
+        rb.AddForce(new Vector2(0, 1) * fanPower, ForceMode2D.Force);
     }
 
     private void SetAngle()
     {
         Vector3 moveVector = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        if (Mathf.Abs(moveVector.x) < 0.1f && Mathf.Abs(moveVector.y) < 0.1f)
+        if (transform.position.y < -3.7)
         {
             moveVector = vectorX;
             rb.velocity = new Vector2(0f, 0f);
@@ -70,7 +73,7 @@ public class PlaneController : MonoBehaviour
     {
         angle *= Mathf.Deg2Rad;
         planeAngle = angle;
-        rb.AddForce(15 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
+        rb.AddForce(launchPower * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
 
     public void SetKinematic(bool boolean) => rb.isKinematic = boolean;

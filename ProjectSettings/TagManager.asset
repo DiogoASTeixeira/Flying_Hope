@@ -7,6 +7,7 @@ TagManager:
   - FallDetector
   - Checkpoint
   - Fan
+  - Ground
   layers:
   - Default
   - TransparentFX
