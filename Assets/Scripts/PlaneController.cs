@@ -6,13 +6,14 @@ using UnityEngine;
 public class PlaneController : MonoBehaviour
 {
     public float fanSpeed;
-    public float verticalAngleMod;
-    public float horizontalAngleMod;
+    public float airResistanceForce;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    private float angle;
     private Vector3 vectorX;
+    private float planeAngle;
+    private float inputTilt;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,18 +21,27 @@ public class PlaneController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         vectorX = new Vector3(1, 0, 0);
+
         SetAngle();
     }
 
     // Update is called once per frame
     void Update()
     {
+        inputTilt = Input.GetAxis("Horizontal");
     }
 
     private void FixedUpdate()
     {
         FlipHorizontal();
         SetAngle();
+        AirResistanceForce();
+    }
+
+    private void AirResistanceForce()
+    {
+        Vector2 perpendicular = Vector2.Perpendicular(rb.velocity.normalized);
+        rb.AddForce(perpendicular * airResistanceForce, ForceMode2D.Force);
     }
 
     private void FlipHorizontal() => sr.flipY = rb.velocity.x < -0.5f;
@@ -52,13 +62,14 @@ public class PlaneController : MonoBehaviour
             moveVector = vectorX;
             rb.velocity = new Vector2(0f, 0f);
         }
-        rb.SetRotation(Vector3.SignedAngle(vectorX, moveVector, Vector3.forward));
-        Debug.Log(Vector3.SignedAngle(vectorX, moveVector, Vector3.forward));
+        planeAngle = Vector3.SignedAngle(vectorX, moveVector, Vector3.forward);
+        rb.SetRotation(planeAngle);
     }
 
     public void LaunchPlane(float force, float angle)
     {
         angle *= Mathf.Deg2Rad;
+        planeAngle = angle;
         rb.AddForce(15 * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
 
