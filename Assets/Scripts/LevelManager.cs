@@ -35,12 +35,12 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (launchPhase != LaunchPhase.Launched)
+        /*if (launchPhase != LaunchPhase.Launched)
         {
             PlaneLauncher();
-        }
+        }*/
     }
-
+    /*
     private void PlaneLauncher()
     {
         switch (launchPhase)
@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour
                 }
                 break;
         }
-    }
+    }*/
 
     public void ResetTimer()
     {

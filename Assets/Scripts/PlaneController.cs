@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
-    public float airResistanceForce;
-    public float tiltPower;
-    public float launchPower;
+    public float jumpForce;
+    public bool onGround;
+    public bool isJumping;
+    public float jumpTime;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Vector3 vectorX;
     private float planeAngle;
     private float inputTilt;
+    private float jumpTimeCounter;
+    private float moveInput;
+    private float speed = 4;
 
 
     // Start is called before the first frame update
@@ -29,18 +33,48 @@ public class PlaneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (onGround)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                isJumping = true;
+                jumpTimeCounter = jumpTime;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.Space) && isJumping)
+        {
+            if(jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
+        }
     }
 
     private void FixedUpdate()
     {
-        FlipHorizontal();
-        SetAngle();
-        inputTilt = Input.GetAxis("Horizontal");
-        rb.SetRotation(rb.rotation - inputTilt * tiltPower);
-        AirResistanceForce();
+        moveInput = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        //FlipHorizontal();
+        //SetAngle();
+        //inputTilt = Input.GetAxis("Horizontal");
+        //rb.SetRotation(rb.rotation - inputTilt * tiltPower);
+        //AirResistanceForce();
+
     }
 
+    /*
     private void AirResistanceForce()
     {
         if (transform.position.y > -3.5)
@@ -49,7 +83,7 @@ public class PlaneController : MonoBehaviour
             rb.AddForce(perpendicular * airResistanceForce, ForceMode2D.Force);
         }
     }
-
+    */
     private void FlipHorizontal() => sr.flipY = rb.velocity.x < -0.5f;
 
     public void TriggerFan(float fanPower)
@@ -69,12 +103,20 @@ public class PlaneController : MonoBehaviour
         rb.SetRotation(planeAngle);
     }
 
+    /*
     public void LaunchPlane(float force, float angle)
     {
         angle *= Mathf.Deg2Rad;
         planeAngle = angle;
         rb.AddForce(launchPower * force * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), ForceMode2D.Impulse);
     }
+    */
 
     public void SetKinematic(bool boolean) => rb.isKinematic = boolean;
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        collision.gameObject.CompareTag("Ground");
+        onGround = true;
+    }
 }
