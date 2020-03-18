@@ -29,7 +29,6 @@ public class LevelManager : MonoBehaviour
 
         launchAngle = 0f;
         launchPower = 0f;
-        gamePlayer.SetKinematic(true);
     }
 
     // Update is called once per frame
