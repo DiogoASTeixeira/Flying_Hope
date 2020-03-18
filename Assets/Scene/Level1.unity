@@ -127,6 +127,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7888187837849419315}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &35698096
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35698095}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 946605fb1122ee3489dc4575ffcb931e, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -3.3091846}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.24, y: 10.24}
+    newSize: {x: 10.24, y: 10.24}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 10.24, y: 3.6216307}
+  m_EdgeRadius: 0
 --- !u!1 &249598547
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +452,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.8
-  m_GravityScale: 1
+  m_AngularDrag: 0.05
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -509,9 +535,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b519ba715a9ce5409cabb922a6ec816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  airResistanceForce: 9.8
-  tiltPower: 30
-  launchPower: 25
+  jumpForce: 10
+  onGround: 1
+  isJumping: 0
+  jumpTime: 5
+  speed: 5
 --- !u!1 &624647233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,7 +1390,7 @@ PrefabInstance:
     - target: {fileID: 3606332478509775281, guid: cf46b5ab40dd70f4f9ee5a36913bdd2d,
         type: 3}
       propertyPath: fanPower
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3606332478509775293, guid: cf46b5ab40dd70f4f9ee5a36913bdd2d,
         type: 3}
@@ -1453,5 +1481,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7888187839182932130, guid: b79e31410944fd54394c15427e70fca1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b79e31410944fd54394c15427e70fca1, type: 3}
