@@ -14,12 +14,15 @@ public class PlaneController : MonoBehaviour
 
     private Rigidbody2D rb;
     private float jumpTimeCounter;
+    private float planeAngle;
     private bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        SetAngle();
+
     }
 
     // Update is called once per frame
@@ -27,11 +30,20 @@ public class PlaneController : MonoBehaviour
     {
         if (!gameOver)
         {
+            
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!gameOver)
+        {
             if (onGround)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    rb.velocity = Vector2.up * jumpForce;
+                    // rb.velocity = Vector2.up * jumpForce;
+                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     isJumping = true;
                     onGround = false;
                     jumpTimeCounter = jumpTime;
@@ -40,9 +52,11 @@ public class PlaneController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space) && isJumping && !onGround)
             {
-                if (jumpTimeCounter > 0)
+                if (true || jumpTimeCounter > 0)
                 {
-                    rb.velocity = Vector2.up * jumpForce;
+                    //rb.velocity = Vector2.up * jumpForce;
+
+                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     jumpTimeCounter -= Time.deltaTime;
                 }
                 else
@@ -51,13 +65,18 @@ public class PlaneController : MonoBehaviour
                     onGround = true;
                 }
             }
+
+            rb.velocity = new Vector2(speed, rb.velocity.y);
+            SetAngle();
         }
     }
 
-    private void FixedUpdate()
+    private void SetAngle()
     {
-        if(!gameOver)
-            rb.velocity = new Vector2(speed, rb.velocity.y);
+        Vector3 moveVector = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+
+        planeAngle = Vector3.SignedAngle(Vector2.right, moveVector, Vector3.forward);
+        rb.SetRotation(planeAngle);
     }
 
     public void TriggerFan(float fanPower)
