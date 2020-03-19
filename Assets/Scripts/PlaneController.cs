@@ -6,21 +6,21 @@ using UnityEngine;
 public class PlaneController : MonoBehaviour
 {
     public float jumpForce;
-    public bool onGround;
-    public bool isJumping;
-    public float jumpTime;
     public float speed;
 
 
     private Rigidbody2D rb;
-    private float jumpTimeCounter;
     private float planeAngle;
+
+    private bool hasStarted = false;
     private bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+
         SetAngle();
 
     }
@@ -28,45 +28,27 @@ public class PlaneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameOver)
-        {
-            
-        }
+
     }
 
     private void FixedUpdate()
     {
         if (!gameOver)
         {
-            if (onGround)
+            if (Input.GetKey(KeyCode.Space))
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if(!hasStarted)
                 {
-                    // rb.velocity = Vector2.up * jumpForce;
-                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                    isJumping = true;
-                    onGround = false;
-                    jumpTimeCounter = jumpTime;
+                    rb.isKinematic = false;
+                    hasStarted = true;
                 }
+                //rb.velocity = Vector2.up * jumpForce;
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
-
-            if (Input.GetKey(KeyCode.Space) && isJumping && !onGround)
+            if(hasStarted)
             {
-                if (true || jumpTimeCounter > 0)
-                {
-                    //rb.velocity = Vector2.up * jumpForce;
-
-                    rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                    jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    isJumping = false;
-                    onGround = true;
-                }
+                rb.velocity = new Vector2(speed, rb.velocity.y);
             }
-
-            rb.velocity = new Vector2(speed, rb.velocity.y);
             SetAngle();
         }
     }
@@ -88,12 +70,15 @@ public class PlaneController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
             gameOver = true;
-            onGround = true;
-            isJumping = false;
             rb.velocity = new Vector2(0, 0);
             
         }
 
         Debug.Log(gameOver);
+    }
+
+    public void increaseSpeed(float increase)
+    {
+        speed += increase;
     }
 }
