@@ -27,7 +27,7 @@ public class PlaneController : MonoBehaviour
     {
         if (!gameOver)
         {
-            if (onGround || isJumping)
+            if (onGround)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -48,6 +48,7 @@ public class PlaneController : MonoBehaviour
                 else
                 {
                     isJumping = false;
+                    onGround = true;
                 }
             }
         }
@@ -71,7 +72,7 @@ public class PlaneController : MonoBehaviour
             onGround = true;
             isJumping = false;
             rb.velocity = new Vector2(0, 0);
-
+            
         }
 
         Debug.Log(gameOver);
