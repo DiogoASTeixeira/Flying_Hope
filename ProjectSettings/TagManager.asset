@@ -8,6 +8,7 @@ TagManager:
   - Checkpoint
   - Fan
   - Ground
+  - Column
   layers:
   - Default
   - TransparentFX

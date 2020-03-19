@@ -11,11 +11,10 @@ public class PlaneController : MonoBehaviour
     public float jumpTime;
     public float speed;
 
+
     private Rigidbody2D rb;
     private float jumpTimeCounter;
-    private float moveInput;
-    
-
+    private bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,36 +25,38 @@ public class PlaneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onGround || isJumping)
+        if (!gameOver)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (onGround || isJumping)
             {
-                rb.velocity = Vector2.up * jumpForce;
-                isJumping = true;
-                onGround = false;
-                jumpTimeCounter = jumpTime;
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    rb.velocity = Vector2.up * jumpForce;
+                    isJumping = true;
+                    onGround = false;
+                    jumpTimeCounter = jumpTime;
+                }
             }
-        }
 
-        if (Input.GetKey(KeyCode.Space) && isJumping && !onGround)
-        {
-            if(jumpTimeCounter > 0)
+            if (Input.GetKey(KeyCode.Space) && isJumping && !onGround)
             {
-                rb.velocity = Vector2.up * jumpForce;
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
+                if (jumpTimeCounter > 0)
+                {
+                    rb.velocity = Vector2.up * jumpForce;
+                    jumpTimeCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    isJumping = false;
+                }
             }
         }
     }
 
     private void FixedUpdate()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
+        if(!gameOver)
+            rb.velocity = new Vector2(speed, rb.velocity.y);
     }
 
     public void TriggerFan(float fanPower)
@@ -65,7 +66,14 @@ public class PlaneController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.gameObject.CompareTag("Ground");
-        onGround = true;
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
+            gameOver = true;
+            onGround = true;
+            isJumping = false;
+            rb.velocity = new Vector2(0, 0);
+
+        }
+
+        Debug.Log(gameOver);
     }
 }
