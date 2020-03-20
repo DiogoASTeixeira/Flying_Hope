@@ -10,6 +10,8 @@ TagManager:
   - Ground
   - Column
   - Coin
+  - Counter
+  - GameOver
   layers:
   - Default
   - TransparentFX

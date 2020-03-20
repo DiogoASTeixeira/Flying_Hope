@@ -7,7 +7,7 @@ public class PlaneController : MonoBehaviour
 {
     public float jumpForce;
     public float speed;
-
+    public RectTransform gameOverPanel;
 
     private Rigidbody2D rb;
     private float planeAngle;
@@ -43,7 +43,6 @@ public class PlaneController : MonoBehaviour
                     rb.isKinematic = false;
                     hasStarted = true;
                 }
-                //rb.velocity = Vector2.up * jumpForce;
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
             if(hasStarted)
@@ -72,6 +71,7 @@ public class PlaneController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
             gameOver = true;
             rb.velocity = new Vector2(0, 0);
+            gameOverPanel.gameObject.SetActive(true);
         }
     }
 
