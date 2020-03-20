@@ -79,11 +79,9 @@ public class PlaneController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
-            coinCount++;
             Destroy(collision.gameObject);
+            ScoreManager.instance.ChangeScore();
         }
-
-        Debug.Log(coinCount);
     }
 
     public void increaseSpeed(float increase)
