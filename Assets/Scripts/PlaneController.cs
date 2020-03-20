@@ -14,6 +14,7 @@ public class PlaneController : MonoBehaviour
 
     private bool hasStarted = false;
     private bool gameOver = false;
+    private int coinCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -71,10 +72,18 @@ public class PlaneController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
             gameOver = true;
             rb.velocity = new Vector2(0, 0);
-            
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            coinCount++;
+            Destroy(collision.gameObject);
         }
 
-        Debug.Log(gameOver);
+        Debug.Log(coinCount);
     }
 
     public void increaseSpeed(float increase)

@@ -9,6 +9,7 @@ TagManager:
   - Fan
   - Ground
   - Column
+  - Coin
   layers:
   - Default
   - TransparentFX
