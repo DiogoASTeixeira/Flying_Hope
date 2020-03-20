@@ -1072,6 +1072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 1
   speed: 5
+  gameOverPanel: {fileID: 632011389}
 --- !u!1001 &468404676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1346,11 +1347,11 @@ GameObject:
   - component: {fileID: 632011390}
   m_Layer: 5
   m_Name: GameOver
-  m_TagString: Untagged
+  m_TagString: GameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &632011389
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2112,7 +2113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029799805}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5988774, y: 7.1798024, z: 0}
+  m_LocalPosition: {x: -0.25, y: 9.09, z: 0}
   m_LocalScale: {x: 2.1663, y: 2.1663, z: 2.1663}
   m_Children: []
   m_Father: {fileID: 0}
