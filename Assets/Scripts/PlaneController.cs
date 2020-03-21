@@ -2,19 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlaneController : MonoBehaviour
 {
     public float jumpForce;
     public float speed;
     public RectTransform gameOverPanel;
+    public Button restart; 
 
     private Rigidbody2D rb;
     private float planeAngle;
 
     private bool hasStarted = false;
     private bool gameOver = false;
-    private int coinCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -22,8 +24,16 @@ public class PlaneController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
 
+        restart.onClick.AddListener(restartGame);
+
         SetAngle();
 
+    }
+
+    private void restartGame()
+    {
+        Debug.Log("entrei");
+        Application.LoadLevel(Application.loadedLevel);
     }
 
     // Update is called once per frame

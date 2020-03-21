@@ -1073,6 +1073,7 @@ MonoBehaviour:
   jumpForce: 1
   speed: 5
   gameOverPanel: {fileID: 632011389}
+  restart: {fileID: 1153654339}
 --- !u!1001 &468404676
 PrefabInstance:
   m_ObjectHideFlags: 0
