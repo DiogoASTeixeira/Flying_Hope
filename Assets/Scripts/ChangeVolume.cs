@@ -13,5 +13,6 @@ public class ChangeVolume : MonoBehaviour
     void Update()
     {
         music.volume = volume.value;
+        MainMenu.menu.volume = volume.value;
     }
 }
