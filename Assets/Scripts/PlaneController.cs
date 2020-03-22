@@ -25,23 +25,10 @@ public class PlaneController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
 
-        restart.onClick.AddListener(restartGame);
-
         SetAngle();
 
     }
 
-    private void restartGame()
-    {
-        Debug.Log("entrei");
-        SceneManager.LoadScene("Level1");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void FixedUpdate()
     {
@@ -82,8 +69,7 @@ public class PlaneController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
             gameOver = true;
             rb.velocity = new Vector2(0, 0);
-            gameOverPanel.gameObject.SetActive(true);
-            Cursor.visible = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

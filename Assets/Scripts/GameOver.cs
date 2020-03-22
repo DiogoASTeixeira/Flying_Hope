@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    public RectTransform gameover;
-    public Text text;
-    // Start is called before the first frame update
-    void Start()
+    public Texture2D cursorSprite;
+    public void Start()
     {
-        
+        Cursor.visible = true;
+        Cursor.SetCursor(cursorSprite, Vector2.zero, CursorMode.ForceSoftware);
+    }
+    public void Restart()
+    {
+        Debug.Log("Restart");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MainMenu()
     {
-        
+        Debug.Log("Menu");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 }
