@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     public Texture2D cursorSprite;
     public void Start()
     {
-        Cursor.SetCursor(cursorSprite, Vector2.zero, CursorMode.ForceSoftware);
+        //Cursor.SetCursor(cursorSprite, Vector2.zero, CursorMode.ForceSoftware);
     }
     public void PlayGame()
     {
