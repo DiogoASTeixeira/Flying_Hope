@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlaneController : MonoBehaviour
@@ -33,7 +34,7 @@ public class PlaneController : MonoBehaviour
     private void restartGame()
     {
         Debug.Log("entrei");
-        Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene("Level1");
     }
 
     // Update is called once per frame
