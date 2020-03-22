@@ -71,6 +71,13 @@ public class PlaneController : MonoBehaviour
             rb.velocity = new Vector2(0, 0);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+
+        if (collision.gameObject.CompareTag("WinStudent"))
+        {
+            gameOver = true;
+            rb.velocity = new Vector2(0, 0);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

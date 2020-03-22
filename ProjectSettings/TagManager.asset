@@ -12,6 +12,7 @@ TagManager:
   - Coin
   - Counter
   - GameOver
+  - WinStudent
   layers:
   - Default
   - TransparentFX
