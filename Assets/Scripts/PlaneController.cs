@@ -82,6 +82,7 @@ public class PlaneController : MonoBehaviour
             gameOver = true;
             rb.velocity = new Vector2(0, 0);
             gameOverPanel.gameObject.SetActive(true);
+            Cursor.visible = true;
         }
     }
 
