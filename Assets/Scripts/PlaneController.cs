@@ -77,6 +77,7 @@ public class PlaneController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
+            Debug.Log("coin");
             Destroy(collision.gameObject);
             ScoreManager.instance.ChangeScore();
         }
