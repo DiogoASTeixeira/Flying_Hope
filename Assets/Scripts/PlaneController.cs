@@ -66,7 +66,7 @@ public class PlaneController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Column")){
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Obstacle")){
             gameOver = true;
             rb.velocity = new Vector2(0, 0);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

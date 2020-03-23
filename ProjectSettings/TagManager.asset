@@ -8,11 +8,11 @@ TagManager:
   - Checkpoint
   - Fan
   - Ground
-  - Column
   - Coin
   - Counter
   - GameOver
   - WinStudent
+  - Obstacle
   layers:
   - Default
   - TransparentFX

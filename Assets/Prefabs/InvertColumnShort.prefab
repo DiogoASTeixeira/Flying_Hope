@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 9059170955934342927, guid: 6118ef52e566def4cbfe064b167f1d9f,
         type: 3}
       propertyPath: m_Name
-      value: ColumnShort (1)
+      value: InvertColumnShort
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6118ef52e566def4cbfe064b167f1d9f, type: 3}
