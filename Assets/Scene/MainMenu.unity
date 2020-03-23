@@ -388,7 +388,7 @@ AudioSource:
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorSprite: {fileID: 2800000, guid: 538e58921a26251408d64f1c346ff3aa, type: 3}
+  volume: 0
 --- !u!1 &336700854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,3 +2084,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorSprite: {fileID: 2800000, guid: 538e58921a26251408d64f1c346ff3aa, type: 3}
+  volume: 0
