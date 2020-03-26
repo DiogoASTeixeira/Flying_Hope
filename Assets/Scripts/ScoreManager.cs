@@ -18,7 +18,10 @@ public class ScoreManager : MonoBehaviour
             instance = this;
         }
     }
-
+    public int getScore()
+    {
+        return score;
+    }
     public void ChangeScore()
     {
         score += 1;
