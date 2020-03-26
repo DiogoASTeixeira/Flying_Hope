@@ -12,6 +12,15 @@ public class GameOver : MonoBehaviour
         Cursor.visible = true;
         Cursor.SetCursor(cursorSprite, Vector2.zero, CursorMode.ForceSoftware);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Restart();
+        }
+    }
+
     public void Restart()
     {
         Debug.Log("Restart");
